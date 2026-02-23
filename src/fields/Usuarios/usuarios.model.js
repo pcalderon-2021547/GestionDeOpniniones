@@ -10,13 +10,20 @@ const userSchema = new mongoose.Schema(
             trim: true,
             maxLength: [100, 'El nombre no puede exceder 100 caracteres'],
         },
+        username: {
+            type: String,
+            unique: [true, 'El nombre de usuario ya existe'],
+            maxLength: [100, 'El nombre no puede exceder 100 caracteres']
+        },
         email: {
             type: String,
-            unique: true,
+            unique: [true, 'El email ya esta registrado'],
             sparse: true,
         },
         password: {
             type: String,
+            required: [true, 'La contraseña es requerida'],
+            minLength: [6, 'La contraseña debe tener al menos 6 caracteres'],
         },
         rol: {
             type: String,

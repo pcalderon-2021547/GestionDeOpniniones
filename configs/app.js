@@ -12,6 +12,8 @@ import { helmetConfiguration } from './helmet-configuration.js';
 import usuariosRoutes from '../src/fields/Usuarios/usuarios.routes.js';
 import roleRoutes from '../src/fields/Roles/role_routes.js';
 import authRoutes from '../src/fields/auth/auth_routes.js'
+import postRoutes from '../src/fields/post/post.routes.js';
+import commentRoutes from '../src/fields/comments/comment.routes.js';
 
 
 const BASE_PATH = '/gestionopiniones/v1';
@@ -29,6 +31,8 @@ const routes = (app) => {
 app.use(`${BASE_PATH}/Usuarios`, usuariosRoutes);
 app.use(`${BASE_PATH}/Roles`, roleRoutes);
 app.use(`${BASE_PATH}/auth`, authRoutes)
+app.use(`${BASE_PATH}/post`, postRoutes);
+app.use(`${BASE_PATH}/comment`, commentRoutes);
 
 
     app.get(`${BASE_PATH}/health`, (request, response) => {

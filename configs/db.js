@@ -1,5 +1,6 @@
 'use strict';
 import mongoose from "mongoose";
+import { createDefaultUser } from "../helper/createUserAdmin.js";
 export const dbConnection = async () => {
     try {
         mongoose.connection.on('error', () => {
@@ -30,7 +31,11 @@ export const dbConnection = async () => {
         await mongoose.connect(process.env.URI_MONGO, {
             serverSelectionTimeoutMS: 5000,
             maxPoolSize: 10
-        })
+        });
+
+        console.log('MongoDB | Creando usuario...');
+        await createDefaultUser();
+
     } catch (error) {
         console.log(`Error al conectar la db: ${error}`);
     }
