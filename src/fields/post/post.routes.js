@@ -4,7 +4,7 @@ import { validateJWT } from "../../../middlewares/validate_jwt.js";
 
 const router = Router();
 
-router.post("/:id", validateJWT, createPost);
+router.post("/", validateJWT, createPost);
 router.get("/", getPosts);
 router.put("/:id", validateJWT, updatePost);
 router.delete("/:id", validateJWT, deletePost);
