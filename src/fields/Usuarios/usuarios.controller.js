@@ -68,41 +68,41 @@ export const updateProfile = async (req, res) => {
         const { id } = req.params;
         const { oldPassword, newPassword, ...data } = req.body;
         const authenticatedUser = req.user;
- 
-        // Validar que el usuario solo se edite a el
-        if (authenticatedUser.uid !== id) {
+
+        if (authenticatedUser.id.toString() !== id) {
             return res.status(403).json({
                 success: false,
                 message: 'No tienes permiso para editar un perfil ajeno'
             });
         }
- 
-        const user = await user.findById(id);
-        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+        const user = await Field.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
 
         if (newPassword) {
             if (!oldPassword) {
-                return res.status(400).json({ message: 'Debes ingresar la contraseña anterior para validar el cambio' });
+                return res.status(400).json({ message: 'Debes ingresar la contraseña anterior' });
             }
- 
+
             const validOld = await bcrypt.compare(oldPassword, user.password);
             if (!validOld) {
                 return res.status(400).json({ message: 'La contraseña anterior es incorrecta' });
             }
-           
+
             data.password = await bcrypt.hash(newPassword, 10);
         }
 
-        const updatedUser = await user.findByIdAndUpdate(id, data, { new: true }).select('-password');
- 
+        const updatedUser = await Field.findByIdAndUpdate(id, data, { new: true }).select('-password');
+
         res.status(200).json({
             success: true,
             message: 'Perfil actualizado exitosamente',
             user: updatedUser
         });
- 
+
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 };
-
